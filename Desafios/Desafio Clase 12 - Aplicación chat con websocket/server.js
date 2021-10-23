@@ -21,9 +21,7 @@ app.get("/", (req, res) => {
 
 io.on("connection", async (socket) =>{
     console.log(`Nuevo Usuario Conectado ID: ${socket.id}`)
-
-
-
+    
 
     const mensajes = await contenedorMensajes.getAll()
     socket.emit("mensajes", mensajes)
@@ -32,8 +30,6 @@ io.on("connection", async (socket) =>{
         const mensajes = await contenedorMensajes.getAll()
         io.sockets.emit("mensajes", mensajes)
     })
-
-
 
 
     const productos = await contenedorProductos.getAll()

@@ -1,24 +1,17 @@
 [
   {
-    "author": "Juan",
+    "id": 1,
+    "author": "juan@gmail.com",
     "text": "Hola"
   },
   {
-    "author": "Mario",
+    "id": 2,
+    "author": "mario@gmail.com",
     "text": "Hola, ¿Cómo estan?"
   },
   {
-    "author": "Alberto",
+    "id": 3,
+    "author": "alberto@gmail.com",
     "text": "Hola ¿todo bien?"
-  },
-  {
-    "author": "Gaston",
-    "text": "Hola a todos",
-    "id": null
-  },
-  {
-    "author": "Gaston",
-    "text": "muero de hambre",
-    "id": 1
   }
 ]

@@ -8,24 +8,53 @@ const agregarMensaje = (event) =>{
         text: document.getElementById("textChat").value
     }
 
-    socket.emit("nuevoMensaje", mensaje)
+    if(document.getElementById("authorChat").value === "" || document.getElementById("textChat").value === ""){
+        alert("Los campos para enviar mensajes estan incompletos")
+    } else {
+        socket.emit("nuevoMensaje", mensaje)
+
+        document.getElementById("textChat").value = ""
+    }
+    
 }
 
 const formularioChat = document.getElementsByClassName("formularioChat")
 formularioChat[0].addEventListener("submit", agregarMensaje)
 
+const agregarProducto = (event) =>{
+    event.preventDefault()
+
+    const producto = {
+        title: document.getElementById("title").value,
+        price: document.getElementById("price").value,
+        thumbnail: document.getElementById("thumbnail").value
+    }
+
+    if(document.getElementById("title").value === "" || document.getElementById("price").value === "" || document.getElementById("thumbnail").value === ""){
+        alert("Los campos para cargar el producto estan incompletos")
+    } else {
+        socket.emit("nuevoProducto", producto)
+
+        document.getElementById("title").value = ""
+        document.getElementById("price").value = ""
+        document.getElementById("thumbnail").value = ""
+    }
+}
+
+const formularioProducto = document.getElementsByClassName("formularioProducto")
+formularioProducto[0].addEventListener("submit", agregarProducto)
+
 socket.on("mensajes", data =>{
     const mensajesHtml = data.map( mensajes => {
         return(`
-            <div>
-                <strong>${mensajes.author}</strong>
-                <em>${mensajes.text}</em>
+            <div class="burbujaChat">
+                <strong class="email">${mensajes.author} <span class="fecha">[${new Date().toLocaleString()}]</span>: </strong>
+                <span class="letraMensaje">${mensajes.text}</span>
             </div>
         `)
     }).join(" ")
 
     const listaMensajesHtml = document.getElementsByClassName("mensajes")
-
     listaMensajesHtml[0].innerHTML = `${mensajesHtml}`
 })
 
@@ -41,6 +70,6 @@ socket.on("productos", data =>{
     }).join(" ")
 
     const listaProductosHtml = document.getElementsByClassName("productosTabla")
-
     listaProductosHtml[0].innerHTML = `${productosHtml}`
 })
+
