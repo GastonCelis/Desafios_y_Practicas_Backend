@@ -5,7 +5,8 @@ const agregarMensaje = (event) =>{
     
     const mensaje = {
         author: document.getElementById("authorChat").value,
-        text: document.getElementById("textChat").value
+        text: document.getElementById("textChat").value,
+        date: new Date().toLocaleString()
     }
 
     if(document.getElementById("authorChat").value === "" || document.getElementById("textChat").value === ""){
@@ -48,7 +49,7 @@ socket.on("mensajes", data =>{
     const mensajesHtml = data.map( mensajes => {
         return(`
             <div class="burbujaChat">
-                <strong class="email">${mensajes.author} <span class="fecha">[${new Date().toLocaleString()}]</span>: </strong>
+                <strong class="email">${mensajes.author} <span class="fecha">[${mensajes.date}]</span>: </strong>
                 <span class="letraMensaje">${mensajes.text}</span>
             </div>
         `)
@@ -56,6 +57,7 @@ socket.on("mensajes", data =>{
 
     const listaMensajesHtml = document.getElementsByClassName("mensajes")
     listaMensajesHtml[0].innerHTML = `${mensajesHtml}`
+    listaMensajesHtml[0].scrollTop = listaMensajesHtml[0].scrollHeight
 })
 
 socket.on("productos", data =>{

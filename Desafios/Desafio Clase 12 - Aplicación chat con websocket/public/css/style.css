@@ -23,7 +23,7 @@
 }
 
 .mensajes{
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 200px;
     width: 100%;
 }
