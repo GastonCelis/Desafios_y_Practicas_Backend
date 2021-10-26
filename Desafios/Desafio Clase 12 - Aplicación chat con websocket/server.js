@@ -2,7 +2,7 @@ const express = require("express")
 const { Server: HttpServer} = require("http")
 const { Server: IoServer} = require("socket.io")
 
-const contenedor = require("./contenedor")
+const contenedor = require("./Contenedor")
 const contenedorProductos = new contenedor("./data/productos.json")
 const contenedorMensajes = new contenedor("./data/mensajes.json")
 
