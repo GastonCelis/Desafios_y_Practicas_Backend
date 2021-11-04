@@ -1,12 +1,11 @@
-const {options} = require("../../options/mariaDB")
-const knex = require("knex")(options)
+const knex = require("../../options/mariaDB")
 
 knex.schema.createTable("products", table => {
     table.increments("id")
     table.string("title")
-    table.integer("price")
+    table.float("price")
     table.string("thumbnail")
 })
-    .then(() => console.log("Table products created"))
+    .then(() => console.log("Products table created"))
     .catch( error => { console.log(error); throw error })
     .finally(() => { knex.destroy() })

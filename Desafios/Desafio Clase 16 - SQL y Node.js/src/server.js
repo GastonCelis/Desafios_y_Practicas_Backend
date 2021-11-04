@@ -1,10 +1,12 @@
 const express = require("express")
 const { Server: HttpServer} = require("http")
 const { Server: IoServer} = require("socket.io")
+const knexSQLite3 = require("./options/SQLite3")
+const knexMariaDB = require("./options/mariaDB")
 
-const contenedor = require("../Contenedor")
-//const contenedorProductos = new contenedor(".data/productos.json")
-const contenedorMensajes = new contenedor("./DB/ecommerce.sqlite")
+const contenedor = require("../Container")
+const contenedorProductos = new contenedor(knexMariaDB)
+const contenedorMensajes = new contenedor(knexSQLite3)
 
 const PORT = 8080
 const app = express()
@@ -21,24 +23,25 @@ app.get("/", (req, res) => {
 
 io.on("connection", async (socket) =>{
     console.log(`Nuevo Usuario Conectado ID: ${socket.id}`)
-    
+    const tableProducts = "products"
+    const tableMessages = "messages"
 
-    const mensajes = await contenedorMensajes.getAll()
+    const mensajes = await contenedorMensajes.getAll(tableMessages)
     socket.emit("mensajes", mensajes)
     socket.on("nuevoMensaje", async data => {
-        await contenedorMensajes.save(data)
-        const mensajes = await contenedorMensajes.getAll()
+        await contenedorMensajes.save(tableMessages, data)
+        const mensajes = await contenedorMensajes.getAll(tableMessages)
         io.sockets.emit("mensajes", mensajes)
     })
 
 
-    /*const productos = await contenedorProductos.getAll()
+    const productos = await contenedorProductos.getAll(tableProducts)
     socket.emit("productos", productos)
     socket.on("nuevoProducto", async data => {
-        await contenedorProductos.save(data)
-        const productos = await contenedorProductos.getAll()
+        await contenedorProductos.save(tableProducts, data)
+        const productos = await contenedorProductos.getAll(tableProducts)
         io.sockets.emit("productos", productos)
-    })*/
+    })
 })
 
 httpServer.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`))

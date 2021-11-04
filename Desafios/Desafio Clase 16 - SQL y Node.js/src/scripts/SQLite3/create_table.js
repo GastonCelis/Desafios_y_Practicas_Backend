@@ -1,5 +1,4 @@
-const {options} = require("../../options/SQLite3")
-const knex = require("knex")(options)
+const knex = require("../../options/SQLite3")
 
 knex.schema.createTable("messages", table => {
     table.increments("id")
@@ -7,6 +6,6 @@ knex.schema.createTable("messages", table => {
     table.string("text")
     table.date("date")
 })
-    .then(() => console.log("Table messages created"))
+    .then(() => console.log("Messages table created"))
     .catch( error => { console.log(error); throw error })
     .finally(() => { knex.destroy() })

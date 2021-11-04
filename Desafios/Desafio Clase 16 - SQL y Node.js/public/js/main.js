@@ -22,7 +22,7 @@ const agregarMensaje = (event) =>{
 const formularioChat = document.getElementsByClassName("formularioChat")
 formularioChat[0].addEventListener("submit", agregarMensaje)
 
-/*const agregarProducto = (event) =>{
+const agregarProducto = (event) =>{
     event.preventDefault()
 
     const producto = {
@@ -43,7 +43,7 @@ formularioChat[0].addEventListener("submit", agregarMensaje)
 }
 
 const formularioProducto = document.getElementsByClassName("formularioProducto")
-formularioProducto[0].addEventListener("submit", agregarProducto)*/
+formularioProducto[0].addEventListener("submit", agregarProducto)
 
 socket.on("mensajes", data =>{
     const mensajesHtml = data.map( mensajes => {
@@ -60,7 +60,7 @@ socket.on("mensajes", data =>{
     listaMensajesHtml[0].scrollTop = listaMensajesHtml[0].scrollHeight
 })
 
-/*socket.on("productos", data =>{
+socket.on("productos", data =>{
     const productosHtml = data.map(producto =>{
         return(`
             <tr>
@@ -73,5 +73,5 @@ socket.on("mensajes", data =>{
 
     const listaProductosHtml = document.getElementsByClassName("productosTabla")
     listaProductosHtml[0].innerHTML = `${productosHtml}`
-})*/
+})
 
