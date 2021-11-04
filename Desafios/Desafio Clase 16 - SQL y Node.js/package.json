@@ -1,0 +1,21 @@
+{
+  "name": "sql_node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.95.12",
+    "mysql": "^2.18.1",
+    "node": "^17.0.1",
+    "nodemon": "^2.0.14",
+    "socket.io": "^4.3.1",
+    "sqlite3": "^5.0.2"
+  }
+}

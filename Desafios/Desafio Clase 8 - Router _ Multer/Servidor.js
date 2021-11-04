@@ -3,7 +3,7 @@ const Contenedor = require('./Contenedor');
 const productosRouter = require('./router/routerProductos');
 const contenedor = new Contenedor('./data/Productos.json');
 const server = express();
-const PORT = 8080;
+const PORT = 9090;
 const obtenerRandomInferior = (min, max) => Math.round(Math.random() * (max - min + 1)) + min;
 
 server.use(express.json());
@@ -27,12 +27,15 @@ server.get('/productosRandom', async (req, res) => {
     res.json(productos[posicionRandom]);
 });
 
-const callbackInit = () => {
-    console.log(`Servidor corriendo en el puerto: ${PORT}`);
-};
+
+
+
+
 
 server.use("/api/productos", productosRouter)
 
+const callbackInit = () => {
+    console.log(`Servidor corriendo en el puerto: ${PORT}`);
+};
 server.listen(PORT, callbackInit);
-
 server.on('error', (error) => console.log('Error: ', error));
