@@ -117,5 +117,3 @@ use ecommerce
 db.messages.find().pretty()
 
 db.products.insertOne({timestamp: 1635723518851, name: "Pañuelo", description: "Rojo", code: 111, price: 1500, stock: 10, photo: "imagen12"})
-
-db.products.deleteMany({photo: "imagen12"})
