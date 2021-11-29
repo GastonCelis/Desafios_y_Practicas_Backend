@@ -1,5 +1,11 @@
 const socket = io.connect()
 
+//const { denormalize } = require("normalizr")
+const { getMessages } = require("../../src/models/messages")
+
+const messagesNormalized = getMessages
+console.log(messagesNormalized)
+
 const agregarMensaje = (event) =>{
     event.preventDefault()
     
@@ -70,8 +76,8 @@ socket.on("mensajes", data =>{
     listaMensajesHtml[0].scrollTop = listaMensajesHtml[0].scrollHeight
 
 
-    const dataDenormalized = normalizr.denormalize(data.result, schemaMessages, data.entities)
-    console.log(dataDenormalized)
+    //const dataDenormalized = denormalize(data.result, schemaMessages, data.entities)
+    //console.log(dataDenormalized)
 })
 
 socket.on("productos", data =>{

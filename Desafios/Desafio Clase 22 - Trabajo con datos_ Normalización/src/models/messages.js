@@ -1,12 +1,12 @@
 const MessageDao = require("../daos/Messages")
-const { normalizeMessages } = require("../utils/normalizar")
+const messageNormalize = require("../utils/normalizar")
 
 const messageDao = new MessageDao()
 
 const getMessages = async () => {
     const messages = await messageDao.readAll();
 
-    return normalizeMessages({ id: "messages", messages })
+    return messageNormalize({ id: "messages", messages })
 };
 
 const saveMessage = async (message) => {
@@ -15,7 +15,10 @@ const saveMessage = async (message) => {
     return idMessage;
 }
 
+const m = getMessages()
+console.log(m)
+
 module.exports = {
     getMessages,
     saveMessage
-};
+}
