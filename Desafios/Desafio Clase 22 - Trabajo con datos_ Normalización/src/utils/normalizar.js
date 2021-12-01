@@ -12,4 +12,7 @@ const schemaMessages = new schema.Entity("messages", {
 
 const messageNormalize = (message) => normalize(message, schemaMessages)
 
-module.exports = messageNormalize
+module.exports = {
+    messageNormalize,
+    schemaMessages
+}

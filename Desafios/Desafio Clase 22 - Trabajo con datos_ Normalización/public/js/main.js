@@ -7,8 +7,7 @@ const schemaMessage = new normalizr.schema.Entity("message", {
 const schemaMessages = new normalizr.schema.Entity("messages", {
     messages: [schemaMessage]
 })
-
-
+const messageNormalize = (message) => normalizr.normalize(message, schemaMessages)
 
 const agregarMensaje = (event) =>{
     event.preventDefault()
@@ -40,8 +39,16 @@ const agregarMensaje = (event) =>{
 }
 
 socket.on("mensajes", data =>{
-    const dataDenormalized = normalizr.denormalize(data.result, schemaMessages, data.entities)
-    console.log({dataDenormalized})
+    const normalizedMessages = messageNormalize({ id: "messages", data })
+    const dataDenormalized = normalizr.denormalize(normalizedMessages.result, schemaMessages, normalizedMessages.entities)
+    const compresion = Math.round(100 - (((JSON.stringify(dataDenormalized).length) * 100) / JSON.stringify(normalizedMessages).length))
+
+    const procentajeNormDes = `
+        <h2>Data Normalizada: ${JSON.stringify(normalizedMessages).length}</h2>
+        <h2>Data Desnormalizada: ${JSON.stringify(dataDenormalized).length}</h2>
+        <h2>Porcentaje de Compresión: % ${compresion}</h2>
+    `
+
     const mensajesHtml = data.map( mensajes => {
         return(`
             <div class="burbujaChat">
@@ -55,7 +62,8 @@ socket.on("mensajes", data =>{
     listaMensajesHtml[0].innerHTML = `${mensajesHtml}`
     listaMensajesHtml[0].scrollTop = listaMensajesHtml[0].scrollHeight
 
-    
+    const porcentaje = document.getElementsByClassName("porcentaje-Normalizacion")
+    porcentaje[0].innerHTML = `${procentajeNormDes}`
 })
 
 const formularioChat = document.getElementsByClassName("formularioChat")

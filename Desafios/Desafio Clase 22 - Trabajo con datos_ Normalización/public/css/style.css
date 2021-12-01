@@ -88,3 +88,13 @@
     transition: all 400ms;
 }
 
+.porcentaje-Normalizacion{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    color: blue;
+    margin-top: 3em;
+}
+
