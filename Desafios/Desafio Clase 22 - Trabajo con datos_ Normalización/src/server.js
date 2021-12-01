@@ -2,12 +2,10 @@ const express = require("express")
 const { Server: HttpServer} = require("http")
 const { Server: IoServer} = require("socket.io")
 
-
 const faker = require("faker")
 const MessageDao = require("./daos/Messages")
 
 const messageDao = new MessageDao()
-
 
 const PORT = 8080
 const app = express()
@@ -27,7 +25,7 @@ app.get("/api/productos-test", (req, res) => {
         id: index,
         title: faker.commerce.productName(),
         price: faker.commerce.price(),
-        photo: faker.image.imageUrl()
+        thumbnail: faker.image.imageUrl()
     }))
 
     res.json(productos)
@@ -43,15 +41,6 @@ io.on("connection", async (socket) =>{
         const mensajes = await messageDao.readAll()
         io.sockets.emit("mensajes", mensajes)
     })
-
-
-    /*const productos = await contenedorProductos.getAll(tableProducts)
-    socket.emit("productos", productos)
-    socket.on("nuevoProducto", async data => {
-        await contenedorProductos.save(tableProducts, data)
-        const productos = await contenedorProductos.getAll(tableProducts)
-        io.sockets.emit("productos", productos)
-    })*/
 })
 
 httpServer.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`))

@@ -1,10 +1,14 @@
 const socket = io.connect()
 
-//const { denormalize } = require("normalizr")
-const { getMessages } = require("../../src/models/messages")
+const schemaAuthor = new normalizr.schema.Entity("author", {}, {idAttribute: "email"})
+const schemaMessage = new normalizr.schema.Entity("message", {
+    author: schemaAuthor
+})
+const schemaMessages = new normalizr.schema.Entity("messages", {
+    messages: [schemaMessage]
+})
 
-const messagesNormalized = getMessages
-console.log(messagesNormalized)
+
 
 const agregarMensaje = (event) =>{
     event.preventDefault()
@@ -35,10 +39,31 @@ const agregarMensaje = (event) =>{
     
 }
 
+socket.on("mensajes", data =>{
+    const dataDenormalized = normalizr.denormalize(data.result, schemaMessages, data.entities)
+    console.log({dataDenormalized})
+    const mensajesHtml = data.map( mensajes => {
+        return(`
+            <div class="burbujaChat">
+                <strong class="email">${mensajes.author.id} <span class="fecha">[${mensajes.date}]</span>: </strong>
+                <span class="letraMensaje">${mensajes.text}</span>
+            </div>
+        `)
+    }).join(" ")
+
+    const listaMensajesHtml = document.getElementsByClassName("mensajes")
+    listaMensajesHtml[0].innerHTML = `${mensajesHtml}`
+    listaMensajesHtml[0].scrollTop = listaMensajesHtml[0].scrollHeight
+
+    
+})
+
 const formularioChat = document.getElementsByClassName("formularioChat")
 formularioChat[0].addEventListener("submit", agregarMensaje)
 
-const agregarProducto = (event) =>{
+
+
+/*const agregarProducto = (event) =>{
     event.preventDefault()
 
     const producto = {
@@ -61,25 +86,6 @@ const agregarProducto = (event) =>{
 const formularioProducto = document.getElementsByClassName("formularioProducto")
 formularioProducto[0].addEventListener("submit", agregarProducto)
 
-socket.on("mensajes", data =>{
-    const mensajesHtml = data.map( mensajes => {
-        return(`
-            <div class="burbujaChat">
-                <strong class="email">${mensajes.author.id} <span class="fecha">[${mensajes.date}]</span>: </strong>
-                <span class="letraMensaje">${mensajes.text}</span>
-            </div>
-        `)
-    }).join(" ")
-
-    const listaMensajesHtml = document.getElementsByClassName("mensajes")
-    listaMensajesHtml[0].innerHTML = `${mensajesHtml}`
-    listaMensajesHtml[0].scrollTop = listaMensajesHtml[0].scrollHeight
-
-
-    //const dataDenormalized = denormalize(data.result, schemaMessages, data.entities)
-    //console.log(dataDenormalized)
-})
-
 socket.on("productos", data =>{
     const productosHtml = data.map(producto =>{
         return(`
@@ -93,5 +99,5 @@ socket.on("productos", data =>{
 
     const listaProductosHtml = document.getElementsByClassName("productosTabla")
     listaProductosHtml[0].innerHTML = `${productosHtml}`
-})
+})*/
 

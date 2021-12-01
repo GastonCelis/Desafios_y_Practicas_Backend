@@ -5,20 +5,18 @@ const messageDao = new MessageDao()
 
 const getMessages = async () => {
     const messages = await messageDao.readAll();
-
-    return messageNormalize({ id: "messages", messages })
+    return messages
 };
 
 const saveMessage = async (message) => {
     const idMessage = await messageDao.create(message);
-
     return idMessage;
 }
 
-const m = getMessages()
-console.log(m)
+const allMenssages = getMessages()
+const normalizeMessage = messageNormalize({ id: "messages", allMenssages })
 
 module.exports = {
-    getMessages,
+    normalizeMessage,
     saveMessage
 }
