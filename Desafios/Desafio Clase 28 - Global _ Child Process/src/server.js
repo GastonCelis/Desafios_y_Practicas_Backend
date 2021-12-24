@@ -10,15 +10,17 @@ const { Server: IoServer} = require("socket.io")
 const faker = require("faker")
 const MessageDao = require("./daos/Messages")
 const UserDao =require("./daos/Users")
-const { isValidPassword, createHash, checkAuthentication } = require("./auth/authIndex")
+const { isValidPassword, createHash } = require("./auth/authIndex")
 
 const authRouter = require("./router/auth")
 const homeRouter = require("./router/home")
+const randomRouter = require("./router/random")
+const inforRouter = require("./router/info")
 
 const messageDao = new MessageDao()
 const userDao = new UserDao()
 
-const PORT = 8080
+const PORT = process.env.PORT
 const app = express()
 const httpServer = new HttpServer(app)
 const io = new IoServer(httpServer)
@@ -29,15 +31,10 @@ app.use(express.static( "./public"))
 
 app.use(authRouter)
 app.use(homeRouter)
+app.use(randomRouter)
+app.use(inforRouter)
 
-app.use(session({
-    secret: "silence",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 60000
-    }
-}))
+app.use(session(process.env.SESSION))
 
 app.use(passport.initialize())
 app.use(passport.session())
