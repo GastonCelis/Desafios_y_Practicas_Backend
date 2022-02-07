@@ -17,10 +17,7 @@ const MessageDao = require("./daos/Messages")
 const UserDao =require("./daos/Users")
 const { isValidPassword, createHash } = require("./auth/authIndex")
 
-const authRouter = require("./router/auth")
-const homeRouter = require("./router/home")
-const randomRouter = require("./router/random")
-const inforRouter = require("./router/info")
+const indexRouter = require("./router/index")
 
 const messageDao = new MessageDao()
 const userDao = new UserDao()
@@ -37,10 +34,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
 app.use(express.static( "./public"))
 
-app.use(authRouter)
-app.use(homeRouter)
-app.use(randomRouter)
-app.use(inforRouter)
+app.use(indexRouter)
 
 app.use(session(process.env.SESSION))
 
